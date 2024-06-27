@@ -2,4 +2,3 @@
 
 # import apis into api package
 from example.api.default_api import DefaultApi
-

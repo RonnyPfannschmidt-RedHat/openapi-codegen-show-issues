@@ -19,17 +19,17 @@ interface Pets {
 @pattern("here")
 scalar HereBeDragons extends string;
 
-@pattern("[0-9]{2-8}")
+@pattern("[0-9]{2,8}")
 scalar PettyNumber extends string;
 
 model PassMe {
-  mangled_string: PettyNumber | HereBeDragons;
+  mangled_string?: PettyNumber | HereBeDragons;
 
   @doc("values is matched first no matter what")
-  confused_values: Values | MoreValues | MoreValuesRefext;
+  confused_values?: Values | MoreValues | MoreValuesRefext;
 
-  @doc("more-values is matched first - it may also match if the schema does")
-  nice_values: MoreValuesRefext | MoreValues | Values;
+  @doc("more-values is matched first")
+  nice_values?: MoreValuesRefext | MoreValues | Values;
 }
 
 model Values {

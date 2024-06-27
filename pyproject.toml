@@ -10,24 +10,41 @@ authors = [{name="Ronny Pfannschmidt", email="rpfannsc@redhat.com"}]
 readme = {file="README.md", content-type="text/x-markdown"}
 urls.Project = "https://github.com/RonnyPfannschmidt-RedHat/openapi-codegen-show-issues/"
 
-requires-python = ">= 3.11"
+requires-python = ">= 3.12"
 dependencies = [
- "datamodel-code-generator"]
+ "datamodel-code-generator",
+"dateutils",
+]
 
 dynamic = ["version"]
 
 [tool.mypy]
 strict=true
-python_version = "3.11"
+python_version = "3.12"
 
 [tool.ruff]
 fix = true
 [tool.ruff.lint]
 extend-select = ["UP","F","E","W","ANN", "FA"]
 ignore = ["ANN101", "ANN102"]
+extend-safe-fixes = ["UP038", "UP008","UP030","UP031",]
+per-file-ignores = { "example/*" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202","ANN204","ANN206","ANN401",  "E501" , "F841"]}
 
 [tool.hatch.version]
 source = "vcs"
 
 [tool.hatch.envs.default]
-scripts.generate = "datamodel-codegen --input=openapi/openapi.yaml --output=model_codegen.py"
+python = "3.12"
+dependencies = ["pytest", "schemathesis"]
+scripts.generate = '''
+   datamodel-codegen \
+     --input=openapi/openapi.yaml \
+     --input-file-type=openapi \
+     --output=model_codegen.py \
+     --output-model-type=pydantic_v2.BaseModel
+'''
+scripts.tsp = "npm run tsp-compile example.tsp"
+scripts.openapi = "npm run openapi-compile"
+scripts.pre-commit = "env pre-commit run -a || env pre-commit run -a"
+scripts.test = "pytest {args}"
+scripts.refresh = ["tsp", "openapi", "generate", "pre-commit", "test"]

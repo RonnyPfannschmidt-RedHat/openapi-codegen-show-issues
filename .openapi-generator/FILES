@@ -1,4 +1,3 @@
-.github/workflows/python.yml
 example/__init__.py
 example/api/__init__.py
 example/api/default_api.py

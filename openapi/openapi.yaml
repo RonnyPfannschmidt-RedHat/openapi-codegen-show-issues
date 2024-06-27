@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Broken Examples Home
+  version: 0.0.0
+tags: []
+paths:
+  /examples:
+    get:
+      operationId: Pets_list
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PassMe'
+components:
+  schemas:
+    HereBeDragons:
+      type: string
+      pattern: here
+    MoreValues:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+    MoreValuesRefext:
+      type: object
+      properties:
+        size:
+          type: integer
+      allOf:
+        - $ref: '#/components/schemas/Values'
+    PassMe:
+      type: object
+      required:
+        - mangled_string
+        - confused_values
+        - nice_values
+      properties:
+        mangled_string:
+          anyOf:
+            - $ref: '#/components/schemas/PettyNumber'
+            - $ref: '#/components/schemas/HereBeDragons'
+        confused_values:
+          anyOf:
+            - $ref: '#/components/schemas/Values'
+            - $ref: '#/components/schemas/MoreValues'
+            - $ref: '#/components/schemas/MoreValuesRefext'
+          description: values is matched first no matter what
+        nice_values:
+          anyOf:
+            - $ref: '#/components/schemas/MoreValuesRefext'
+            - $ref: '#/components/schemas/MoreValues'
+            - $ref: '#/components/schemas/Values'
+          description: more-values is matched first - it may also match if the schema does
+    PettyNumber:
+      type: string
+      pattern: '[0-9]{2-8}'
+    Values:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+servers:
+  - url: https://example.com
+    description: The service endpoint
+    variables: {}

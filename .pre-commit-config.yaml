@@ -1,0 +1,8 @@
+repos:
+- repo: local
+  hooks:
+  - language: node
+    id: tsp-compile
+    name: tsp compile
+    entry: npm run tsp-compile
+    files: ".*\\.tsp"

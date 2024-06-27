@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend="hatchling.build"
+
+[project]
+name = "openapi-example"
+description = "showing some issues with openapi codegen v7 and its pydantic usage"
+authors = [{name="Ronny Pfannschmidt", email="rpfannsc@redhat.com"}]
+
+readme = {file="README.md", content-type="text/x-markdown"}
+urls.Project = "https://github.com/RonnyPfannschmidt-RedHat/openapi-codegen-show-issues/"
+
+requires-python = ">= 3.11"
+dependencies = [
+ "datamodel-code-generator"]
+
+dynamic = ["version"]
+
+[tool.mypy]
+strict=true
+python_version = "3.11"
+
+[tool.ruff]
+fix = true
+[tool.ruff.lint]
+extend-select = ["UP","F","E","W","ANN", "FA"]
+ignore = ["ANN101", "ANN102"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.envs.default]
+scripts.generate = "datamodel-codegen --input=openapi/openapi.yaml --output=model_codegen.py"

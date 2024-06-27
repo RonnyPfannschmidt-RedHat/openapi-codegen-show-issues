@@ -6,3 +6,10 @@ repos:
     name: tsp compile
     entry: npm run tsp-compile
     files: ".*\\.tsp"
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.4.10
+  hooks:
+    - id: ruff
+      exclude: example
+    - id: ruff-format
+      exclude: example

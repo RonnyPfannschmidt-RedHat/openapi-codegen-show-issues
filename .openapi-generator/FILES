@@ -10,7 +10,8 @@ example/models/more_values.py
 example/models/more_values_refext.py
 example/models/pass_me.py
 example/models/pass_me_confused_values.py
-example/models/pass_me_mangled_string.py
+example/models/pass_me_mangled_string_any.py
+example/models/pass_me_mangled_string_one.py
 example/models/pass_me_nice_values.py
 example/models/values.py
 example/py.typed

@@ -4,6 +4,7 @@ import "@typespec/openapi3";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.OpenAPI;
 
 @service({
   title: "Broken Examples Home",
@@ -23,7 +24,10 @@ scalar HereBeDragons extends string;
 scalar PettyNumber extends string;
 
 model PassMe {
-  mangled_string?: PettyNumber | HereBeDragons;
+  @oneOf
+  mangled_string_one?: PettyNumber | HereBeDragons;
+
+  mangled_string_any?: PettyNumber | HereBeDragons;
 
   @doc("values is matched first no matter what")
   confused_values?: Values | MoreValues | MoreValuesRefext;

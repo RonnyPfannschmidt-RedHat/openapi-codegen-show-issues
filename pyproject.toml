@@ -28,14 +28,16 @@ fix = true
 extend-select = ["UP","F","E","W","ANN", "FA"]
 ignore = ["ANN101", "ANN102"]
 extend-safe-fixes = ["UP038", "UP008","UP030","UP031",]
-per-file-ignores = { "example/*" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202","ANN204","ANN206","ANN401",  "E501" , "F841"]}
+[tool.ruff.lint.per-file-ignores]
+"example/*" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202","ANN204","ANN206","ANN401",  "E501" , "F841"]
+"test_*.py" = ["ANN401"]
 
 [tool.hatch.version]
 source = "vcs"
 
 [tool.hatch.envs.default]
 python = "3.12"
-dependencies = ["pytest", "schemathesis"]
+dependencies = ["pytest", "schemathesis", "mypy>=1.10"]
 scripts.generate = '''
    datamodel-codegen \
      --input=openapi/openapi.yaml \

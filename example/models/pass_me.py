@@ -17,7 +17,8 @@ import json
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar
 from example.models.pass_me_confused_values import PassMeConfusedValues
-from example.models.pass_me_mangled_string import PassMeMangledString
+from example.models.pass_me_mangled_string_any import PassMeMangledStringAny
+from example.models.pass_me_mangled_string_one import PassMeMangledStringOne
 from example.models.pass_me_nice_values import PassMeNiceValues
 from typing import Self
 
@@ -27,11 +28,13 @@ class PassMe(BaseModel):
     PassMe
     """  # noqa: E501
 
-    mangled_string: PassMeMangledString | None = None
+    mangled_string_one: PassMeMangledStringOne | None = None
+    mangled_string_any: PassMeMangledStringAny | None = None
     confused_values: PassMeConfusedValues | None = None
     nice_values: PassMeNiceValues | None = None
     __properties: ClassVar[list[str]] = [
-        "mangled_string",
+        "mangled_string_one",
+        "mangled_string_any",
         "confused_values",
         "nice_values",
     ]
@@ -73,9 +76,12 @@ class PassMe(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of mangled_string
-        if self.mangled_string:
-            _dict["mangled_string"] = self.mangled_string.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of mangled_string_one
+        if self.mangled_string_one:
+            _dict["mangled_string_one"] = self.mangled_string_one.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of mangled_string_any
+        if self.mangled_string_any:
+            _dict["mangled_string_any"] = self.mangled_string_any.to_dict()
         # override the default output from pydantic by calling `to_dict()` of confused_values
         if self.confused_values:
             _dict["confused_values"] = self.confused_values.to_dict()
@@ -95,8 +101,15 @@ class PassMe(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "mangled_string": PassMeMangledString.from_dict(obj["mangled_string"])
-                if obj.get("mangled_string") is not None
+                "mangled_string_one": PassMeMangledStringOne.from_dict(
+                    obj["mangled_string_one"]
+                )
+                if obj.get("mangled_string_one") is not None
+                else None,
+                "mangled_string_any": PassMeMangledStringAny.from_dict(
+                    obj["mangled_string_any"]
+                )
+                if obj.get("mangled_string_any") is not None
                 else None,
                 "confused_values": PassMeConfusedValues.from_dict(
                     obj["confused_values"]

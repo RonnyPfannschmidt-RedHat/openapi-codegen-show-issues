@@ -34,6 +34,7 @@ from example.models.more_values import MoreValues
 from example.models.more_values_refext import MoreValuesRefext
 from example.models.pass_me import PassMe
 from example.models.pass_me_confused_values import PassMeConfusedValues
-from example.models.pass_me_mangled_string import PassMeMangledString
+from example.models.pass_me_mangled_string_any import PassMeMangledStringAny
+from example.models.pass_me_mangled_string_one import PassMeMangledStringOne
 from example.models.pass_me_nice_values import PassMeNiceValues
 from example.models.values import Values

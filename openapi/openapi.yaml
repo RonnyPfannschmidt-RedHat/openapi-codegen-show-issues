@@ -41,7 +41,11 @@ components:
     PassMe:
       type: object
       properties:
-        mangled_string:
+        mangled_string_one:
+          oneOf:
+            - $ref: '#/components/schemas/PettyNumber'
+            - $ref: '#/components/schemas/HereBeDragons'
+        mangled_string_any:
           anyOf:
             - $ref: '#/components/schemas/PettyNumber'
             - $ref: '#/components/schemas/HereBeDragons'

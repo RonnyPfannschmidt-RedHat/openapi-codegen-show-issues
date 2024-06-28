@@ -2,15 +2,9 @@
 #   filename:  openapi.yaml
 #   timestamp: 2024-06-27T14:56:41+00:00
 
-from typing import Annotated
 
 
-from pydantic import BaseModel, Field, StringConstraints
-
-
-type HereBeDragons = Annotated[str, StringConstraints(pattern=r"here")]
-type PrettyNumber = Annotated[str, StringConstraints(pattern=r"[0-9]{2,8}")]
-
+from pydantic import BaseModel, Field
 
 class MoreValues(BaseModel):
     name: str
@@ -26,7 +20,6 @@ class MoreValuesRefext(Values):
 
 
 class PassMe(BaseModel):
-    mangled_string: PrettyNumber | HereBeDragons | None = None
     confused_values: Values | MoreValues | MoreValuesRefext | None = Field(
         None, description="values is matched first no matter what"
     )

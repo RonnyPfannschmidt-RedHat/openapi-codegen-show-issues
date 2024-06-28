@@ -10,24 +10,15 @@ using TypeSpec.OpenAPI;
   title: "Broken Examples Home",
 })
 @server("https://example.com", "The service endpoint")
-namespace IssueExamples;
+namespace ConfusedValues;
 
-@route("/examples")
-interface Pets {
-  list(): PassMe[];
+@route("/value-order-matters")
+interface OrderOfValues {
+  get(): PassMe;
 }
 
-@pattern("here")
-scalar HereBeDragons extends string;
-
-@pattern("[0-9]{2,8}")
-scalar PettyNumber extends string;
 
 model PassMe {
-  @oneOf
-  mangled_string_one?: PettyNumber | HereBeDragons;
-
-  mangled_string_any?: PettyNumber | HereBeDragons;
 
   @doc("values is matched first no matter what")
   confused_values?: Values | MoreValues | MoreValuesRefext;

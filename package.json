@@ -8,6 +8,6 @@
   "scripts": {
     "tsp-compile": "npm exec tsp -- compile",
     "tsp-format": "npm exec tsp -- format",
-    "openapi-compile": "npm exec openapi-generator-cli -- generate -i openapi/openapi.yaml -g python -o . --package-name=example"
+    "openapi-compile": "npm exec openapi-generator-cli -- generate -g python -o ."
   }
 }

@@ -40,13 +40,27 @@ python = "3.12"
 dependencies = ["pytest", "schemathesis", "mypy>=1.10"]
 scripts.generate = '''
    datamodel-codegen \
-     --input=openapi/openapi.yaml \
+     --input=openapi/openapi.BrokenString.yaml \
      --input-file-type=openapi \
-     --output=model_codegen.py \
+     --output=model_codegen_broken_string.py \
+     --output-model-type=pydantic_v2.BaseModel
+
+   datamodel-codegen \
+     --input=openapi/openapi.ConfusedValues.yaml \
+     --input-file-type=openapi \
+     --output=model_codegen_condused_values.py \
      --output-model-type=pydantic_v2.BaseModel
 '''
-scripts.tsp = "npm run tsp-compile example.tsp"
-scripts.openapi = "npm run openapi-compile"
+scripts.tsp = "npm run tsp-compile specs"
+scripts.openapi = '''
+  npm run openapi-compile -- \
+    -i openapi/openapi.BrokenString.yaml\
+    --package-name=oapi_codegen_condused_values
+
+  npm run openapi-compile -- \
+    -i openapi/openapi.ConfusedValues.yaml\
+    --package-name=oapi_codegen_broken_string
+'''
 scripts.pre-commit = "env pre-commit run -a || env pre-commit run -a"
 scripts.test = "pytest {args}"
 scripts.refresh = ["tsp", "openapi", "generate", "pre-commit", "test"]

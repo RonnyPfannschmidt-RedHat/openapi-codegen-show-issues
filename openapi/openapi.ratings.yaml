@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  title: rating storage
+  version: 0.0.0
+tags: []
+paths:
+  /:
+    post:
+      operationId: Ratings_create
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NamedRating'
+  /{id}:
+    post:
+      operationId: Ratings_update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The request has succeeded.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/NamedRating'
+                - $ref: '#/components/schemas/PatchRatingNumber'
+components:
+  schemas:
+    NamedRating:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        rating:
+          type: integer
+          description: may be left out
+    PatchRatingNumber:
+      type: object
+      required:
+        - rating
+      properties:
+        rating:
+          type: integer
+          nullable: true
+          description: this one needs a value
+servers:
+  - url: https://example.com
+    description: Single server endpoint
+    variables: {}

@@ -10,7 +10,7 @@ using TypeSpec.OpenAPI;
   title: "Broken Examples Home",
 })
 @server("https://example.com", "The service endpoint")
-namespace ConfusedValues;
+namespace confused_values;
 
 @route("/value-order-matters")
 interface OrderOfValues {

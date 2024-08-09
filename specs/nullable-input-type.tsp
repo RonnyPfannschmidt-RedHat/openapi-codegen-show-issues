@@ -9,7 +9,7 @@ using TypeSpec.Rest;
   title: "rating storage",
 })
 @server("https://example.com", "Single server endpoint")
-namespace Ratings;
+namespace ratings;
 
 model NamedRating {
   name: string;

@@ -10,7 +10,7 @@ using TypeSpec.OpenAPI;
   title: "Broken Examples Home",
 })
 @server("https://example.com", "The service endpoint")
-namespace BrokenString;
+namespace broken_string;
 
 @route("/string-example")
 interface Mangled {

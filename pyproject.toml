@@ -18,9 +18,19 @@ dependencies = [
 
 dynamic = ["version"]
 
+[tool.pytest.ini_options]
+minversion = "8.2"
+addopts = "-ra"
+pythonpath  = "."
+
 [tool.mypy]
 strict=true
 python_version = "3.12"
+plugins = ["pydantic.mypy"]
+[[tool.mypy.overrides]]
+module = ["oapi_codegen.*", ]
+ignore_errors = true
+
 
 [tool.ruff]
 fix = true
@@ -37,30 +47,11 @@ source = "vcs"
 
 [tool.hatch.envs.default]
 python = "3.12"
-dependencies = ["pytest", "schemathesis", "mypy>=1.10"]
-scripts.generate = '''
-   datamodel-codegen \
-     --input=openapi/openapi.BrokenString.yaml \
-     --input-file-type=openapi \
-     --output=model_codegen_broken_string.py \
-     --output-model-type=pydantic_v2.BaseModel
-
-   datamodel-codegen \
-     --input=openapi/openapi.ConfusedValues.yaml \
-     --input-file-type=openapi \
-     --output=model_codegen_condused_values.py \
-     --output-model-type=pydantic_v2.BaseModel
-'''
+dependencies = ["pytest", "schemathesis", "mypy>=1.11"]
+scripts.generate = "python run_codegen.py datamodel broken_string confused_values ratings"
 scripts.tsp = "npm run tsp-compile specs"
-scripts.openapi = '''
-  npm run openapi-compile -- \
-    -i openapi/openapi.BrokenString.yaml\
-    --package-name=oapi_codegen_condused_values
-
-  npm run openapi-compile -- \
-    -i openapi/openapi.ConfusedValues.yaml\
-    --package-name=oapi_codegen_broken_string
-'''
-scripts.pre-commit = "env pre-commit run -a || env pre-commit run -a"
+scripts.openapi = "python run_codegen.py openapi broken_string confused_values ratings"
+scripts.pre-commit = "env pre-commit run -a || env pre-commit run -a|| env pre-commit run -a"
 scripts.test = "pytest {args}"
-scripts.refresh = ["tsp", "openapi", "generate", "pre-commit", "test"]
+scripts.types = "mypy  --enable-incomplete-feature=NewGenericSyntax {args}"
+scripts.refresh = ["tsp", "openapi", "generate", "pre-commit", "types .", "test"]

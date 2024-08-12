@@ -4,14 +4,13 @@
 
 from __future__ import annotations
 
-from typing import Optional, Union
 
 from pydantic import BaseModel, Field
 
 
 class MoreValues(BaseModel):
     name: str
-    age: Optional[int] = None
+    age: int | None = None
 
 
 class Values(BaseModel):
@@ -19,13 +18,13 @@ class Values(BaseModel):
 
 
 class MoreValuesRefext(Values):
-    size: Optional[int] = None
+    size: int | None = None
 
 
 class PassMe(BaseModel):
-    confused_values: Optional[Union[Values, MoreValues, MoreValuesRefext]] = Field(
-        None, description='values is matched first no matter what'
+    confused_values: Values | MoreValues | MoreValuesRefext | None = Field(
+        None, description="values is matched first no matter what"
     )
-    nice_values: Optional[Union[MoreValuesRefext, MoreValues, Values]] = Field(
-        None, description='more-values is matched first'
+    nice_values: MoreValuesRefext | MoreValues | Values | None = Field(
+        None, description="more-values is matched first"
     )

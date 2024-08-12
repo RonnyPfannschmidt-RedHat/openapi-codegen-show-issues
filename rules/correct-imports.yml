@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ast-grep/ast-grep/main/schemas/rule.json
+
+id: correct-imports
+message: use the renamed imports
+severity: error
+language: Python
+rule:
+  pattern: oapi_codegen
+  inside:
+    kind: dotted_name
+    inside:
+      any:
+        - kind: import_from_statement
+        - kind: import_statement
+fix: oapi_code_fixup

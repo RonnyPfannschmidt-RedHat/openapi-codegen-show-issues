@@ -1,0 +1,32 @@
+id: correct-imports
+snapshots:
+  from oapi_codegen.foo import bar:
+    fixed: from oapi_code_fixup.foo import bar
+    labels:
+    - source: oapi_codegen
+      style: primary
+      start: 5
+      end: 17
+    - source: from oapi_codegen.foo import bar
+      style: secondary
+      start: 0
+      end: 32
+    - source: oapi_codegen.foo
+      style: secondary
+      start: 5
+      end: 21
+  import oapi_codegen.foo:
+    fixed: import oapi_code_fixup.foo
+    labels:
+    - source: oapi_codegen
+      style: primary
+      start: 7
+      end: 19
+    - source: import oapi_codegen.foo
+      style: secondary
+      start: 0
+      end: 23
+    - source: oapi_codegen.foo
+      style: secondary
+      start: 7
+      end: 23

@@ -13,7 +13,8 @@ urls.Project = "https://github.com/RonnyPfannschmidt-RedHat/openapi-codegen-show
 requires-python = ">= 3.12"
 dependencies = [
  "datamodel-code-generator",
-"dateutils",
+ "dateutils",
+ "ast-grep-cli",
 ]
 
 dynamic = ["version"]
@@ -28,7 +29,7 @@ strict=true
 python_version = "3.12"
 plugins = ["pydantic.mypy"]
 [[tool.mypy.overrides]]
-module = ["oapi_codegen.*", ]
+module = ["oapi_codegen.*", "oapi_code_fixup.*"]
 ignore_errors = true
 
 
@@ -40,6 +41,7 @@ ignore = ["ANN101", "ANN102"]
 extend-safe-fixes = ["UP038", "UP008","UP030","UP031",]
 [tool.ruff.lint.per-file-ignores]
 "example/*" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202","ANN204","ANN206","ANN401",  "E501" , "F841"]
+"oapi_*/*" = ["ANN001", "ANN002", "ANN003", "ANN201", "ANN202","ANN204","ANN206","ANN401",  "E501" , "F841"]
 "test_*.py" = ["ANN401"]
 
 [tool.hatch.version]
@@ -48,10 +50,20 @@ source = "vcs"
 [tool.hatch.envs.default]
 python = "3.12"
 dependencies = ["pytest", "schemathesis", "mypy>=1.11"]
-scripts.generate = "python run_codegen.py datamodel broken_string confused_values ratings"
-scripts.tsp = "npm run tsp-compile specs"
-scripts.openapi = "python run_codegen.py openapi broken_string confused_values ratings"
-scripts.pre-commit = "env pre-commit run -a || env pre-commit run -a|| env pre-commit run -a"
-scripts.test = "pytest {args}"
-scripts.types = "mypy  --enable-incomplete-feature=NewGenericSyntax {args}"
-scripts.refresh = ["tsp", "openapi", "generate", "pre-commit", "types .", "test"]
+
+[tool.hatch.envs.default.scripts]
+tsp = "npm run tsp-compile specs"
+
+generate = "python run_codegen.py datamodel broken_string confused_values ratings"
+openapi = "python run_codegen.py openapi broken_string confused_values ratings"
+
+ast-grep-fixup-dir = "ast-grep scan -U oapi_code_fixup"
+sync_openapi_fixup = [
+  "rm -rf oapi_code_fixup",
+  "cp oapi_codegen oapi_code_fixup -r",
+  "ast-grep-fixup-dir",
+]
+pre-commit = "env pre-commit run -a || env pre-commit run -a|| env pre-commit run -a"
+test = "pytest {args}"
+types = "mypy  --enable-incomplete-feature=NewGenericSyntax {args}"
+refresh = ["tsp", "openapi",  "generate", "pre-commit", "sync_openapi_fixup", "types .", "test"]

@@ -1,0 +1,6 @@
+id: correct-imports
+valid:
+- "from oapi_code_fixup import *"
+invalid:
+- "from oapi_codegen.foo import bar"
+- "import oapi_codegen.foo"

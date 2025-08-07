@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@openapitools/openapi-generator-cli": "^2.21.4",
     "@typespec/compiler": "^0.57.0",
     "@typespec/openapi3": "^0.57.0",
     "@typespec/rest": "^0.57.0"
